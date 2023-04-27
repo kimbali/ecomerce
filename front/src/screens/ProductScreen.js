@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { Link, parsePath, useNavigate, useParams } from 'react-router-dom';
 // import { useDispatch, useSelector } from 'react-redux'
 import {
@@ -11,13 +12,22 @@ import {
   Form,
   ListGroupItem,
 } from 'react-bootstrap';
-import products from '../products';
+
 import Rating from '../components/Rating';
 
 const ProductScreen = () => {
+  const [product, setProduct] = useState([]);
   const params = useParams();
 
-  const product = products.find(product => product._id === params.id);
+  const fetchProduct = async () => {
+    const { data } = await axios.get(`/api/products/${params.id}`);
+
+    setProduct(data);
+  };
+
+  useEffect(() => {
+    fetchProduct();
+  }, []);
 
   return (
     <div>
