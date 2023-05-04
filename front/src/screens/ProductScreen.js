@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { Link, parsePath, useNavigate, useParams } from 'react-router-dom';
-// import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Row,
   Col,
@@ -14,79 +13,118 @@ import {
 } from 'react-bootstrap';
 
 import Rating from '../components/Rating';
+import { listProductDetails } from '../actions/productActions';
+import Loader from '../components/Loader';
+import Message from '../components/Message';
 
 const ProductScreen = () => {
-  const [product, setProduct] = useState([]);
-  const params = useParams();
+  const [qty, setQty] = useState(1);
+  const { id } = useParams();
+  let navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const fetchProduct = async () => {
-    const { data } = await axios.get(`/api/products/${params.id}`);
-
-    setProduct(data);
-  };
+  const productDetails = useSelector(state => state.productDetails);
+  const { loading, error, product } = productDetails;
 
   useEffect(() => {
-    fetchProduct();
-  }, []);
+    dispatch(listProductDetails(id));
+  }, [dispatch, id]);
+
+  const addToCartHandler = e => {
+    navigate(`/cart/${id}?qty=${qty}`);
+  };
 
   return (
     <div>
-      <Link className='btn btn-light my-3' to='/'>
-        Go back
-      </Link>
-      <Row>
-        <Col md={6}>
-          <Image src={product.image} alt={product.name} fluid />
-        </Col>
-        <Col md={3}>
-          <ListGroup variant='flush'>
-            <ListGroupItem>
-              <h3>{product.name}</h3>
-            </ListGroupItem>
-            <ListGroupItem>
-              <Rating
-                value={product.rating}
-                text={`${product.numReviews} reviews`}
-              />
-            </ListGroupItem>
-            <ListGroupItem>Price: ${product.price}</ListGroupItem>
-            <ListGroupItem>Description: ${product.description}</ListGroupItem>
-          </ListGroup>
-        </Col>
-        <Col md={3}>
-          <Card>
-            <ListGroup variant='flush'>
-              <ListGroupItem>
-                <Row>
-                  <Col>Price: </Col>
-                  <Col>
-                    <strong>{product.price}</strong>
-                  </Col>
-                </Row>
-              </ListGroupItem>
+      {loading ? (
+        <Loader />
+      ) : error ? (
+        <Message variant='danger'>{error}</Message>
+      ) : (
+        <>
+          <Link className='btn btn-light my-3' to='/'>
+            Go back
+          </Link>
+          <Row>
+            <Col md={6}>
+              <Image src={product.image} alt={product.name} fluid />
+            </Col>
+            <Col md={3}>
+              <ListGroup variant='flush'>
+                <ListGroupItem>
+                  <h3>{product.name}</h3>
+                </ListGroupItem>
+                <ListGroupItem>
+                  <Rating
+                    value={product.rating}
+                    text={`${product.numReviews} reviews`}
+                  />
+                </ListGroupItem>
+                <ListGroupItem>Price: ${product.price}</ListGroupItem>
+                <ListGroupItem>
+                  Description: ${product.description}
+                </ListGroupItem>
+              </ListGroup>
+            </Col>
+            <Col md={3}>
+              <Card>
+                <ListGroup variant='flush'>
+                  <ListGroupItem>
+                    <Row>
+                      <Col>Price: </Col>
+                      <Col>
+                        <strong>{product.price}</strong>
+                      </Col>
+                    </Row>
+                  </ListGroupItem>
 
-              <ListGroupItem>
-                <Row>
-                  <Col>Status: </Col>
-                  <Col>
-                    {product.countInStock > 0 ? 'In stock' : 'Out of stock'}
-                  </Col>
-                </Row>
-              </ListGroupItem>
+                  <ListGroupItem>
+                    <Row>
+                      <Col>Status: </Col>
+                      <Col>
+                        {product.countInStock > 0 ? 'In stock' : 'Out of stock'}
+                      </Col>
+                    </Row>
+                  </ListGroupItem>
 
-              <ListGroup.Item>
-                <Button
-                  className='col-12'
-                  type='button'
-                  disabled={product.countInStock === 0}
-                >
-                  Add to cart
-                </Button>
-              </ListGroup.Item>
-            </ListGroup>
-          </Card>
-        </Col>
-      </Row>
+                  {product.countInStock > 0 && (
+                    <ListGroupItem>
+                      <Row>
+                        <Col>Qty</Col>
+                        <Col>
+                          <select
+                            className='form-select form-select-sm'
+                            value={qty}
+                            onChange={e => setQty(e.target.value)}
+                            style={{ padding: 8 }}
+                          >
+                            {[...Array(product.countInStock).keys()].map(x => (
+                              <option key={x} value={x + 1}>
+                                {x + 1}
+                              </option>
+                            ))}
+                          </select>
+                        </Col>
+                      </Row>
+                    </ListGroupItem>
+                  )}
+
+                  <ListGroup.Item>
+                    <Button
+                      className='col-12'
+                      type='button'
+                      disabled={product.countInStock === 0}
+                      onClick={addToCartHandler}
+                    >
+                      Add to cart
+                    </Button>
+                  </ListGroup.Item>
+                </ListGroup>
+              </Card>
+            </Col>
+          </Row>
+        </>
+      )}
     </div>
   );
 };
