@@ -31,8 +31,9 @@ userSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
+// Before register, engcrypt the password
 userSchema.pre('save', async function (next) {
-  if (!this.isModified('password')) {
+  if (!this.isModified('password')) { // isModified is a mongoose method
     next();
   }
 
