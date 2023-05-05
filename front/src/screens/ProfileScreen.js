@@ -10,23 +10,18 @@ import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants';
 import { useNavigate } from 'react-router-dom';
 
 const ProfileScreen = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const { loading, error, user } = useSelector(state => state.userDetails);
+  const { userInfo } = useSelector(state => state.userLogin);
+  const { success } = useSelector(state => state.userUpdateProfile);
+
+  const [name, setName] = useState(userInfo.name || '');
+  const [email, setEmail] = useState(userInfo.email || '');
+  const [password, setPassword] = useState(userInfo.password | '');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [message, setMessage] = useState(null);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const userDetails = useSelector(state => state.userDetails);
-  const { loading, error, user } = userDetails;
-
-  const userLogin = useSelector(state => state.userLogin);
-  const { userInfo } = userLogin;
-
-  const userUpdateProfile = useSelector(state => state.userUpdateProfile);
-  const { success } = userUpdateProfile;
 
   // const orderListMy = useSelector(state => state.orderListMy);
   // const { loading: loadingOrders, error: errorOrders, orders } = orderListMy;
@@ -35,13 +30,13 @@ const ProfileScreen = () => {
     if (!userInfo) {
       navigate('/login');
     } else {
-      if (!user || !user.name || success) {
+      if (!user || !user.name) {
         dispatch({ type: USER_UPDATE_PROFILE_RESET });
         dispatch(getUserDetails('profile'));
         // dispatch(listMyOrders());
       } else {
-        setName(user.name);
-        setEmail(user.email);
+        setName(userInfo.name);
+        setEmail(userInfo.email);
       }
     }
   }, [dispatch, navigate, userInfo, user, success]);
