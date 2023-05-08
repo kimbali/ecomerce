@@ -77,7 +77,7 @@ export const getOrderDetails = id => async (dispatch, getState) => {
 
     const config = {
       headers: {
-        // since its a get, we dont need a content type
+        //'Content-Type': 'application/json', since its a get, we dont need a content type
         Authorization: `Bearer ${userInfo.token}`,
       },
     };
