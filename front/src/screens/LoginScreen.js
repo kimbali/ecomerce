@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
@@ -14,12 +14,13 @@ const LoginScreen = () => {
   const { loading, error, userInfo } = useSelector(state => state.userLogin);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
 
   useEffect(() => {
     if (userInfo) {
-      navigate('/');
+      navigate(location.search ? `/${location.search.split('=')[1]}` : '/');
     }
-  }, [navigate, userInfo]);
+  }, [navigate, userInfo, location]);
 
   const submitHandler = e => {
     e.preventDefault();
