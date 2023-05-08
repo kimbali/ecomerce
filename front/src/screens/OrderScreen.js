@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-// import { PayPalButton } from 'react-paypal-button-v2';
+import { PayPalButton } from 'react-paypal-button-v2';
 import { Row, Col, ListGroup, Image, Card, Button } from 'react-bootstrap';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
@@ -50,6 +50,7 @@ const OrderScreen = ({ match }) => {
 
     const addPayPalScript = async () => {
       const { data: clientId } = await axios.get('/api/config/paypal');
+
       const script = document.createElement('script');
       script.type = 'text/javascript';
       script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`;
@@ -71,12 +72,20 @@ const OrderScreen = ({ match }) => {
         setSdkReady(true);
       }
     }
-  }, [dispatch, orderId, successPay, successDeliver, order]);
+  }, [
+    dispatch,
+    navigate,
+    userInfo,
+    orderId,
+    successPay,
+    successDeliver,
+    order,
+  ]);
 
-  // const successPaymentHandler = paymentResult => {
-  //   console.log(paymentResult);
-  //   dispatch(payOrder(orderId, paymentResult));
-  // };
+  const successPaymentHandler = paymentResult => {
+    console.log(paymentResult);
+    dispatch(payOrder(orderId, paymentResult));
+  };
 
   const deliverHandler = () => {
     dispatch(deliverOrder(order));
@@ -195,14 +204,14 @@ const OrderScreen = ({ match }) => {
               {!order.isPaid && (
                 <ListGroup.Item>
                   {loadingPay && <Loader />}
-                  {/* {!sdkReady ? (
+                  {!sdkReady ? (
                     <Loader />
                   ) : (
                     <PayPalButton
                       amount={order.totalPrice}
                       onSuccess={successPaymentHandler}
                     />
-                  )} */}
+                  )}
                 </ListGroup.Item>
               )}
               {loadingDeliver && <Loader />}
