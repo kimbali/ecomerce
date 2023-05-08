@@ -35,8 +35,7 @@ const PlaceOrderScreen = () => {
     Number(cart.taxPrice)
   ).toFixed(2);
 
-  const orderCreate = useSelector(state => state.orderCreate);
-  const { order, success, error } = orderCreate;
+  const { order, success, error } = useSelector(state => state.orderCreate);
 
   useEffect(() => {
     if (success) {
@@ -44,8 +43,7 @@ const PlaceOrderScreen = () => {
       dispatch({ type: USER_DETAILS_RESET });
       dispatch({ type: ORDER_CREATE_RESET });
     }
-    // eslint-disable-next-line
-  }, [history, success]);
+  }, [success, dispatch, navigate]);
 
   const placeOrderHandler = () => {
     dispatch(
