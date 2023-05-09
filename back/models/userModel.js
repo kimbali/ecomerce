@@ -33,7 +33,8 @@ userSchema.methods.matchPassword = async function (enteredPassword) {
 
 // Before register, engcrypt the password
 userSchema.pre('save', async function (next) {
-  if (!this.isModified('password')) { // isModified is a mongoose method
+  if (!this.isModified('password')) {
+    // isModified is a mongoose method
     next();
   }
 
