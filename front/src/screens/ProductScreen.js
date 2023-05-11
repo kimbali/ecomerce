@@ -13,14 +13,14 @@ import {
 import Rating from '../components/Rating';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
-// import Meta from '../components/Meta';
+import Meta from '../components/Meta';
 import {
   listProductDetails,
   createProductReview,
 } from '../actions/productActions';
 import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants';
 
-const ProductScreen = ({ match }) => {
+const ProductScreen = () => {
   const navigate = useNavigate();
   const { id: paramsId } = useParams();
 
@@ -52,7 +52,7 @@ const ProductScreen = ({ match }) => {
       dispatch(listProductDetails(paramsId));
       dispatch({ type: PRODUCT_CREATE_REVIEW_RESET });
     }
-  }, [dispatch, match, successProductReview]);
+  }, [dispatch, paramsId, product._id, successProductReview]);
 
   const addToCartHandler = () => {
     navigate(`/cart/${paramsId}?qty=${qty}`);
@@ -79,7 +79,7 @@ const ProductScreen = ({ match }) => {
         <Message variant='danger'>{error}</Message>
       ) : (
         <>
-          {/* <Meta title={product.name} /> */}
+          <Meta title={product.name} />
           <Row>
             <Col md={6}>
               <Image src={product.image} alt={product.name} fluid />
