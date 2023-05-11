@@ -5,7 +5,7 @@ import { Row, Col } from 'react-bootstrap';
 import Product from '../components/Product';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
-// import Paginate from '../components/Paginate';
+import Paginate from '../components/Paginate';
 // import ProductCarousel from '../components/ProductCarousel';
 // import Meta from '../components/Meta';
 import { listProducts } from '../actions/productActions';
@@ -48,11 +48,11 @@ const HomeScreen = () => {
               </Col>
             ))}
           </Row>
-          {/* <Paginate
+          <Paginate
             pages={pages}
             page={page}
             keyword={keyword ? keyword : ''}
-          /> */}
+          />
         </>
       )}
     </>
