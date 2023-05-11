@@ -6,7 +6,7 @@ import Product from '../components/Product';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import Paginate from '../components/Paginate';
-// import ProductCarousel from '../components/ProductCarousel';
+import ProductCarousel from '../components/ProductCarousel';
 // import Meta from '../components/Meta';
 import { listProducts } from '../actions/productActions';
 
@@ -27,8 +27,7 @@ const HomeScreen = () => {
     <>
       {/* <Meta /> */}
       {!keyword ? (
-        // <ProductCarousel />
-        <h2>Caroutsel</h2>
+        <ProductCarousel />
       ) : (
         <Link to='/' className='btn btn-light'>
           Go Back
