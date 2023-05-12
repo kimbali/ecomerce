@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Table, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import Message from '../components/Message';
-import Loader from '../components/Loader';
-import { listOrders } from '../actions/orderActions';
+import Message from 'components/Message';
+import Loader from 'components/Loader';
+import { listOrders } from 'redux/actions/orderActions';
 import { useNavigate } from 'react-router-dom';
 
 const OrderListScreen = () => {

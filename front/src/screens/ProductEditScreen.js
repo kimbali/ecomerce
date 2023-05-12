@@ -3,11 +3,14 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import Message from '../components/Message';
-import Loader from '../components/Loader';
-import FormContainer from '../components/FormContainer';
-import { listProductDetails, updateProduct } from '../actions/productActions';
-import { PRODUCT_UPDATE_RESET } from '../constants/productConstants';
+import Message from 'components/Message';
+import Loader from 'components/Loader';
+import FormContainer from 'components/FormContainer';
+import {
+  listProductDetails,
+  updateProduct,
+} from 'redux/actions/productActions';
+import { PRODUCT_UPDATE_RESET } from 'redux/constants/productConstants';
 
 const ProductEditScreen = () => {
   const navigate = useNavigate();

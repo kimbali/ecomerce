@@ -4,17 +4,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { PayPalButton } from 'react-paypal-button-v2';
 import { Row, Col, ListGroup, Image, Card, Button } from 'react-bootstrap';
-import Message from '../components/Message';
-import Loader from '../components/Loader';
+import Message from 'components/Message';
+import Loader from 'components/Loader';
 import {
   getOrderDetails,
   payOrder,
   deliverOrder,
-} from '../actions/orderActions';
+} from 'redux/actions/orderActions';
 import {
   ORDER_PAY_RESET,
   ORDER_DELIVER_RESET,
-} from '../constants/orderConstants';
+} from 'redux/constants/orderConstants';
 
 const OrderScreen = ({ match }) => {
   const dispatch = useDispatch();

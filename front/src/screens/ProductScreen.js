@@ -10,15 +10,15 @@ import {
   Button,
   Form,
 } from 'react-bootstrap';
-import Rating from '../components/Rating';
-import Message from '../components/Message';
-import Loader from '../components/Loader';
-import Meta from '../components/Meta';
+import Rating from 'components/Rating';
+import Message from 'components/Message';
+import Loader from 'components/Loader';
+import Meta from 'components/Meta';
 import {
   listProductDetails,
   createProductReview,
-} from '../actions/productActions';
-import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants';
+} from 'redux/actions/productActions';
+import { PRODUCT_CREATE_REVIEW_RESET } from 'redux/constants/productConstants';
 
 const ProductScreen = () => {
   const navigate = useNavigate();

@@ -15,8 +15,8 @@ import {
   Button,
   Card,
 } from 'react-bootstrap';
-import Message from '../components/Message';
-import { addToCart, removeFromCart } from '../actions/cartActions';
+import Message from 'components/Message';
+import { addToCart, removeFromCart } from 'redux/actions/cartActions';
 
 const CartScreen = () => {
   const navigate = useNavigate();
